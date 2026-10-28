@@ -21,10 +21,10 @@ export default function AuthModal({ isOpen, onClose }) {
         setLoading(true);
         setError('');
 
-     
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://00f1tkp3-7240.euw.devtunnels.ms';
         const endpoint = isLoginMode
-            ? 'http://localhost:5062/api/Auth/login'
-            : 'http://localhost:5062/api/Auth/register';
+            ? `${apiUrl}/api/Auth/login`
+            : `${apiUrl}/api/Auth/register`;
 
         try {
             const response = await fetch(endpoint, {

@@ -7,11 +7,11 @@ export default function FindFriend({ onSelectPet, onOpenDonation }) {
     const [loading, setLoading] = useState(true);
     const [filterType, setFilterType] = useState('all');
     const [searchQuery, setSearchQuery] = useState('');
-    const [isAddModalOpen, setIsAddModalOpen] = useState(false); // <--- Ось ця змінна стану була пропущена!
+    const [isAddModalOpen, setIsAddModalOpen] = useState(false); 
 
-    // Завантаження реальних даних з .NET бекенду
     useEffect(() => {
-        fetch('http://localhost:5062/api/Animals') // Замініть на ваш реальний URL або шлях через проксі
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://00f1tkp3-7240.euw.devtunnels.ms';
+        fetch(`${apiUrl}/api/Animals`)
             .then(res => res.json())
             .then(data => {
                 setPets(data);
