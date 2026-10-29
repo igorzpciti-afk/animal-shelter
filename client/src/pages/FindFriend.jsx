@@ -10,7 +10,7 @@ export default function FindFriend({ onSelectPet, onOpenDonation }) {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false); 
 
     useEffect(() => {
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://00f1tkp3-7240.euw.devtunnels.ms';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fitkp3-7240.euw.devtunnels.ms';
         fetch(`${apiUrl}/api/Animals`)
             .then(res => res.json())
             .then(data => {

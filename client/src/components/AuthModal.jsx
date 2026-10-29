@@ -21,7 +21,7 @@ export default function AuthModal({ isOpen, onClose }) {
         setLoading(true);
         setError('');
 
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://00f1tkp3-7240.euw.devtunnels.ms';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fitkp3-7240.euw.devtunnels.ms';
         const endpoint = isLoginMode
             ? `${apiUrl}/api/Auth/login`
             : `${apiUrl}/api/Auth/register`;

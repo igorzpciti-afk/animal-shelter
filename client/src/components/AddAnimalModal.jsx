@@ -29,7 +29,7 @@ export default function AddAnimalModal({ isOpen, onClose, onAnimalAdded }) {
         setLoading(true);
         setError('');
 
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://00f1tkp3-7240.euw.devtunnels.ms';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fitkp3-7240.euw.devtunnels.ms';
 
         try {
             const response = await fetch(`${apiUrl}/api/Animals`, {
