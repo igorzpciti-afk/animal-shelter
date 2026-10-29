@@ -16,7 +16,7 @@ export default function FindHome() {
         e.preventDefault();
         setSubmitting(true);
 
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fitkp3-7240.euw.devtunnels.ms';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fltkp3-7240.euw.devtunnels.ms';
 
         try {
             const response = await fetch(`${apiUrl}/api/Animals`, {
