@@ -10,9 +10,14 @@ export default function FindFriend({ onSelectPet, onOpenDonation }) {
     const [isAddModalOpen, setIsAddModalOpen] = useState(false); 
 
     useEffect(() => {
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fltkp3-7240.euw.devtunnels.ms';
-        fetch(`${apiUrl}/api/Animals`)
-            .then(res => res.json())
+        // Очищаємо базовий URL від слейша в кінці, якщо він є
+        const baseUrl = (import.meta.env.VITE_API_URL || 'https://volodymyrstrohan-001-site1.dtempurl.com').replace(/\/$/, '');
+
+        fetch(`${baseUrl}/api/Animals`)
+            .then(res => {
+                if (!res.ok) throw new Error(`Помилка сервера: ${res.status}`);
+                return res.json();
+            })
             .then(data => {
                 setPets(data);
                 setLoading(false);

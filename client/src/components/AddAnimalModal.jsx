@@ -24,33 +24,75 @@ export default function AddAnimalModal({ isOpen, onClose, onAnimalAdded }) {
         }));
     };
 
+    //const handleSubmit = async (e) => {
+    //    e.preventDefault();
+    //    setLoading(true);
+    //    setError('');
+
+    //    const apiUrl = import.meta.env.VITE_API_URL || 'https://volodymyrstrohan-001-site1.dtempurl.com';
+
+    //    try {
+    //        const response = await fetch(`${apiUrl}/api/Animals`, {
+    //            method: 'POST',
+    //            headers: {
+    //                'Content-Type': 'application/json',
+    //            },
+    //            body: JSON.stringify(formData),
+    //        });
+
+    //        if (!response.ok) {
+    //            throw new Error('Помилка при створенні запису. Перевірте введені дані.');
+    //        }
+
+    //        const newAnimal = await response.json();
+    //        onAnimalAdded(newAnimal);
+    //        onClose();
+    //    } catch (err) {
+    //        setError(err.message);
+    //    } finally {
+    //        setLoading(false);
+    //    }
+    //};
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        setSubmitting(true);
         setError('');
 
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fltkp3-7240.euw.devtunnels.ms';
+        const baseUrl = import.meta.env.VITE_API_URL || 'https://volodymyrstrohan-001-site1.dtempurl.com';
+        const token = localStorage.getItem('token');
 
         try {
-            const response = await fetch(`${apiUrl}/api/Animals`, {
+            const response = await fetch(`${baseUrl}/api/Animals`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    ...(token ? { 'Authorization': `Bearer ${token}` } : {})
                 },
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    name: formData.name,
+                    species: formData.species,
+                    breed: formData.breed || 'Не вказано',
+                    age: Number(formData.age) || 0,
+                    city: formData.city,
+                    description: formData.description,
+                    imageUrl: formData.imageUrl
+                }),
             });
 
             if (!response.ok) {
-                throw new Error('Помилка при створенні запису. Перевірте введені дані.');
+                const errorText = await response.text();
+                throw new Error(errorText || 'Помилка при додаванні тварини');
             }
 
             const newAnimal = await response.json();
             onAnimalAdded(newAnimal);
             onClose();
         } catch (err) {
-            setError(err.message);
+            console.error('Помилка:', err);
+            setError('Не вдалося додати тварину. Перевірте з’єднання з сервером.');
         } finally {
-            setLoading(false);
+            setSubmitting(false);
         }
     };
 

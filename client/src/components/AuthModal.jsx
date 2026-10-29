@@ -8,6 +8,7 @@ export default function AuthModal({ isOpen, onClose }) {
         fullName: ''
     });
     const [error, setError] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
     if (!isOpen) return null;
@@ -20,11 +21,11 @@ export default function AuthModal({ isOpen, onClose }) {
         e.preventDefault();
         setLoading(true);
         setError('');
+        setSuccessMessage('');
 
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://00fltkp3-7240.euw.devtunnels.ms';
+        const apiUrl = import.meta.env.VITE_API_URL || 'https://volodymyrstrohan-001-site1.dtempurl.com';
         const endpoint = isLoginMode
-            ? `${apiUrl}/api/Auth/login`
-            : `${apiUrl}/api/Auth/register`;
+            ? `${apiUrl}/api/Auth/login` : `${apiUrl}/api/Auth/register`;
 
         try {
             const response = await fetch(endpoint, {
@@ -39,11 +40,27 @@ export default function AuthModal({ isOpen, onClose }) {
 
             const data = await response.json();
             console.log('Успіх:', data);
-            alert(isLoginMode ? 'Успішний вхід!' : 'Реєстрація успішна!');
-            onClose();
+
+            const token = data.token || data.accessToken || data.jwt;
+            if (token) {
+                localStorage.setItem('token', token);
+            }
+            localStorage.setItem('userEmail', formData.email);
+            if (data.fullName) {
+                localStorage.setItem('userName', data.fullName);
+            }
+
+            // Показуємо гарне повідомлення на формі замість alert
+            setSuccessMessage(isLoginMode ? 'Успішний вхід!' : 'Реєстрація успішна!');
+
+            // Через 1.2 секунди закриваємо вікно і перезавантажуємо сторінку для оновлення шапки
+            setTimeout(() => {
+                onClose();
+                window.location.reload();
+            }, 1200);
+
         } catch (err) {
             setError(err.message);
-        } finally {
             setLoading(false);
         }
     };
@@ -65,6 +82,7 @@ export default function AuthModal({ isOpen, onClose }) {
                 </p>
 
                 {error && <div className="mb-4 p-3 bg-red-50 text-red-700 text-sm rounded-xl">{error}</div>}
+                {successMessage && <div className="mb-4 p-3 bg-green-50 text-green-700 text-sm font-semibold rounded-xl text-center">✨ {successMessage}</div>}
 
                 <form onSubmit={handleSubmit} className="space-y-4">
                     {!isLoginMode && (
@@ -111,8 +129,8 @@ export default function AuthModal({ isOpen, onClose }) {
 
                     <button
                         type="submit"
-                        disabled={loading}
-                        className="w-full bg-[#513894] hover:bg-[#412c75] text-white font-semibold py-3 rounded-xl transition shadow-md">
+                        disabled={loading || successMessage}
+                        className="w-full bg-[#513894] hover:bg-[#412c75] text-white font-semibold py-3 rounded-xl transition shadow-md disabled:opacity-50">
                         {loading ? 'Обробка...' : (isLoginMode ? 'Увійти' : 'Зареєструватися')}
                     </button>
                 </form>
