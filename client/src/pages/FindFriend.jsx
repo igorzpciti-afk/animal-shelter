@@ -11,7 +11,7 @@ export default function FindFriend({ onSelectPet, onOpenDonation }) {
 
     useEffect(() => {
         // Очищаємо базовий URL від слейша в кінці, якщо він є
-        const baseUrl = (import.meta.env.VITE_API_URL || 'https://volodymyrstrohan-001-site1.dtempurl.com').replace(/\/$/, '');
+        const baseUrl = (import.meta.env.VITE_API_URL || 'http://volodymyrstrohan-001-site1.dtempurl.com').replace(/\/$/, '');
 
         fetch(`${baseUrl}/api/Animals`)
             .then(res => {

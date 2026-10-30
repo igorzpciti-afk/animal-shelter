@@ -32,8 +32,7 @@ export default function FindHome() {
         setError('');
         setSuccessMessage('');
 
-        // Використовуємо рядок без жорсткого http, якщо розгортається на https
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://volodymyrstrohan-001-site1.dtempurl.com';
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://volodymyrstrohan-001-site1.dtempurl.com';
         const token = localStorage.getItem('token');
 
         try {

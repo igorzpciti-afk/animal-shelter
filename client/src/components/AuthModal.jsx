@@ -23,7 +23,7 @@ export default function AuthModal({ isOpen, onClose }) {
         setError('');
         setSuccessMessage('');
 
-        const apiUrl = import.meta.env.VITE_API_URL || 'https://volodymyrstrohan-001-site1.dtempurl.com';
+        const apiUrl = import.meta.env.VITE_API_URL || 'http://volodymyrstrohan-001-site1.dtempurl.com';
         const endpoint = isLoginMode
             ? `${apiUrl}/api/Auth/login` : `${apiUrl}/api/Auth/register`;
 
